@@ -279,6 +279,11 @@ Open `index.html` in any modern web browser.
 No installation or external dependencies are required.
 
 ---
+## 📌 Internship Submission
+
+**Internship:** NeuroFive Solutions – Frontend Web Development
+
+**Task:** Build an Interactive To-Do List Application
 
 🔗 **Live Demo:** https://ira612.github.io/Flow-ToDo/
 
