@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flow · To-Do</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="app" id="app">
+
+        <!-- ===== DASHBOARD ===== -->
+        <header class="dashboard" id="dashboard">
+            <div class="dashboard__top">
+                <div class="dashboard__greeting">
+                    <span class="dashboard__greeting-icon" id="greetingIcon">☀️</span>
+                    <div>
+                        <h2 class="dashboard__greeting-text" id="greetingText">Good Afternoon</h2>
+                        <p class="dashboard__greeting-sub" id="greetingSub">Let's get things done today 🚀</p>
+                    </div>
+                </div>
+                <div class="dashboard__actions">
+                    <button id="themeToggle" class="btn btn--glass" aria-label="Toggle theme">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    <button id="addBtn" class="btn btn--primary btn--glass">+ New Task</button>
+                </div>
+            </div>
+
+            <div class="dashboard__stats">
+                <div class="stat-pill">
+                    <span class="stat-pill__icon">📝</span>
+                    <span class="stat-pill__value" id="totalCount">0</span>
+                    <span class="stat-pill__label">Tasks</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill__icon">⏳</span>
+                    <span class="stat-pill__value" id="remainingCount">0</span>
+                    <span class="stat-pill__label">Remaining</span>
+                </div>
+                <div class="stat-pill stat-pill--success">
+                    <span class="stat-pill__icon">✅</span>
+                    <span class="stat-pill__value" id="completedCount">0</span>
+                    <span class="stat-pill__label">Done</span>
+                </div>
+                <div class="stat-pill stat-pill--fire">
+                    <span class="stat-pill__icon">🔥</span>
+                    <span class="stat-pill__value" id="streakCount">0</span>
+                    <span class="stat-pill__label">Streak</span>
+                </div>
+            </div>
+
+            <div class="dashboard__progress">
+                <div class="dashboard__progress-bar">
+                    <div class="dashboard__progress-fill" id="dashboardProgressFill" style="width:0%"></div>
+                </div>
+                <span class="dashboard__progress-text" id="dashboardProgressText">0%</span>
+            </div>
+
+            <div class="dashboard__quote" id="quoteDisplay">
+                <span class="quote__icon">✨</span>
+                <span class="quote__text">Small steps lead to big results.</span>
+            </div>
+        </header>
+
+        <!-- ===== INPUT OVERLAY ===== -->
+        <div class="input-overlay" id="inputOverlay">
+            <div class="input-card">
+                <div class="input-card__header">
+                    <span>✏️</span>
+                    <h3>New Task</h3>
+                    <button id="closeInput" class="btn btn--icon-sm">✕</button>
+                </div>
+                <textarea id="taskInput" class="input-field input-field--textarea" placeholder="What's on your mind?" rows="3"></textarea>
+                <div class="input-card__options">
+                    <div class="option-group">
+                        <label for="prioritySelect" class="option-label">Priority</label>
+                        <select id="prioritySelect" class="select">
+                            <option value="low">🌿 Calm</option>
+                            <option value="medium" selected>☀️ Bright</option>
+                            <option value="high">🔥 Bold</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="moodSelect" class="option-label">Mood</label>
+                        <select id="moodSelect" class="select">
+                            <option value="happy">😊 Happy</option>
+                            <option value="focused">🎯 Focused</option>
+                            <option value="chill">😌 Chill</option>
+                            <option value="energetic">⚡ Energetic</option>
+                            <option value="thoughtful">🤔 Thoughtful</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="dueDateInput" class="option-label">Due</label>
+                        <input type="date" id="dueDateInput" class="select" />
+                    </div>
+                    <button id="addBtnModal" class="btn btn--primary">Add Task</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TOOLBAR ===== -->
+        <div class="toolbar">
+            <div class="filters" role="tablist">
+                <button class="filter-btn filter-btn--active" data-filter="all" role="tab">✨ All</button>
+                <button class="filter-btn" data-filter="active" role="tab">🌱 Active</button>
+                <button class="filter-btn" data-filter="completed" role="tab">✅ Done</button>
+            </div>
+            <div class="toolbar__right">
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" class="input-field input-field--search" placeholder="search task…" />
+                </div>
+                <button id="clearCompletedBtn" class="btn btn--ghost btn--sm">✕ Clear done</button>
+            </div>
+        </div>
+
+        <!-- ===== NOTE BOARD ===== -->
+        <div class="note-board" id="taskList"></div>
+
+        <!-- ===== EMPTY STATE ===== -->
+        <div class="empty-state" id="emptyState">
+            <div class="empty-state__content">
+                <span class="empty-state__icon">🌊</span>
+                <p class="empty-state__title">No tasks yet</p>
+                <p class="empty-state__sub">Add your first task to get started.</p>
+            </div>
+        </div>
+
+        <!-- ===== BADGE TOAST ===== -->
+        <div class="badge-toast" id="badgeToast">
+            <span id="badgeEmoji">🏆</span>
+            <span id="badgeText">Achievement unlocked!</span>
+        </div>
+
+        <!-- Hidden tab badge target used by script.js to track remaining-count in the browser tab title -->
+        <span id="tabBadge" style="display:none;" aria-hidden="true"></span>
+    </div>
+
+    <!-- ===== SPARKLE CANVAS ===== -->
+    <canvas id="sparkleCanvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
