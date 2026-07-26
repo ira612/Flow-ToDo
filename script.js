@@ -447,12 +447,12 @@ function deleteTask(id, animate = true) {
     if (index === -1) return;
 
     if (animate) {
-        const items = taskList.querySelectorAll('.task-item');
+        const items = taskList.querySelectorAll('.note-item');
         for (const el of items) {
             if (Number(el.dataset.id) === id) {
                 const rect = el.getBoundingClientRect();
                 burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
-                el.classList.add('task-item--deleting');
+                el.classList.add('note-item--deleting');
                 setTimeout(() => {
                     tasks.splice(index, 1);
                     render();
@@ -664,7 +664,7 @@ function render() {
         const li = document.createElement('div');
         li.className = 'note-item';
         if (task.completed) {
-            li.classList.add('task-item--completed'); 
+            li.classList.add('note-item--completed'); 
         }
         li.dataset.id = task.id;
         li.dataset.vibe = task.priority || 'medium';
